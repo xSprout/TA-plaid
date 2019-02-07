@@ -1,0 +1,283 @@
+{
+    "meta": {
+        "restRoot": "TA_plaid", 
+        "displayName": "plaid", 
+        "apiVersion": "3.0.0", 
+        "version": "1.0.0", 
+        "name": "TA-plaid"
+    }, 
+    "pages": {
+        "inputs": {
+            "title": "Inputs", 
+            "services": [
+                {
+                    "title": "Plaid Modular Input", 
+                    "entity": [
+                        {
+                            "validators": [
+                                {
+                                    "type": "regex", 
+                                    "errorMsg": "Input Name must start with a letter and followed by alphabetic letters, digits or underscores.", 
+                                    "pattern": "^[a-zA-Z]\\w*$"
+                                }, 
+                                {
+                                    "maxLength": 100, 
+                                    "type": "string", 
+                                    "errorMsg": "Length of input name should be between 1 and 100", 
+                                    "minLength": 1
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "Enter a unique name for the data input", 
+                            "label": "Name", 
+                            "field": "name", 
+                            "required": true
+                        }, 
+                        {
+                            "validators": [
+                                {
+                                    "type": "regex", 
+                                    "errorMsg": "Interval must be an integer.", 
+                                    "pattern": "^\\-[1-9]\\d*$|^\\d*$"
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "Time interval of input in seconds.", 
+                            "label": "Interval", 
+                            "field": "interval", 
+                            "required": true
+                        }, 
+                        {
+                            "defaultValue": "default", 
+                            "validators": [
+                                {
+                                    "maxLength": 80, 
+                                    "type": "string", 
+                                    "errorMsg": "Length of index name should be between 1 and 80.", 
+                                    "minLength": 1
+                                }
+                            ], 
+                            "type": "singleSelect", 
+                            "label": "Index", 
+                            "field": "index", 
+                            "required": true, 
+                            "options": {
+                                "blackList": "^_.*$", 
+                                "endpointUrl": "data/indexes", 
+                                "createSearchChoice": true
+                            }
+                        }, 
+                        {
+                            "validators": [
+                                {
+                                    "maxLength": 8192, 
+                                    "type": "string", 
+                                    "errorMsg": "Max length of password is 8192", 
+                                    "minLength": 0
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "", 
+                            "label": "Plaid Access Token", 
+                            "encrypted": true, 
+                            "required": true, 
+                            "field": "plaid_access_token"
+                        }, 
+                        {
+                            "validators": [
+                                {
+                                    "maxLength": 8192, 
+                                    "type": "string", 
+                                    "errorMsg": "Max length of text input is 8192", 
+                                    "minLength": 0
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "", 
+                            "label": "Plaid Item ID", 
+                            "field": "plaid_item_id", 
+                            "required": true
+                        }
+                    ], 
+                    "name": "plaid_modular_input"
+                }
+            ], 
+            "table": {
+                "actions": [
+                    "edit", 
+                    "enable", 
+                    "delete", 
+                    "clone"
+                ], 
+                "moreInfo": [
+                    {
+                        "label": "Name", 
+                        "field": "name"
+                    }, 
+                    {
+                        "label": "Interval", 
+                        "field": "interval"
+                    }, 
+                    {
+                        "label": "Index", 
+                        "field": "index"
+                    }, 
+                    {
+                        "label": "Status", 
+                        "field": "disabled"
+                    }, 
+                    {
+                        "label": "Plaid Access Token", 
+                        "field": "plaid_access_token"
+                    }, 
+                    {
+                        "label": "Plaid Item ID", 
+                        "field": "plaid_item_id"
+                    }
+                ], 
+                "header": [
+                    {
+                        "label": "Name", 
+                        "field": "name"
+                    }, 
+                    {
+                        "label": "Interval", 
+                        "field": "interval"
+                    }, 
+                    {
+                        "label": "Index", 
+                        "field": "index"
+                    }, 
+                    {
+                        "label": "Status", 
+                        "field": "disabled"
+                    }
+                ]
+            }, 
+            "description": "Manage your data inputs"
+        }, 
+        "configuration": {
+            "title": "Configuration", 
+            "tabs": [
+                {
+                    "title": "Logging", 
+                    "entity": [
+                        {
+                            "defaultValue": "INFO", 
+                            "type": "singleSelect", 
+                            "options": {
+                                "disableSearch": true, 
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "DEBUG", 
+                                        "label": "DEBUG"
+                                    }, 
+                                    {
+                                        "value": "INFO", 
+                                        "label": "INFO"
+                                    }, 
+                                    {
+                                        "value": "WARNING", 
+                                        "label": "WARNING"
+                                    }, 
+                                    {
+                                        "value": "ERROR", 
+                                        "label": "ERROR"
+                                    }, 
+                                    {
+                                        "value": "CRITICAL", 
+                                        "label": "CRITICAL"
+                                    }
+                                ]
+                            }, 
+                            "label": "Log level", 
+                            "field": "loglevel"
+                        }
+                    ], 
+                    "name": "logging"
+                }, 
+                {
+                    "title": "Add-on Settings", 
+                    "entity": [
+                        {
+                            "defaultValue": "", 
+                            "validators": [
+                                {
+                                    "maxLength": 8192, 
+                                    "type": "string", 
+                                    "errorMsg": "Max length of text input is 8192", 
+                                    "minLength": 0
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "", 
+                            "label": "Client ID", 
+                            "field": "client_id", 
+                            "required": true
+                        }, 
+                        {
+                            "defaultValue": "", 
+                            "validators": [
+                                {
+                                    "maxLength": 8192, 
+                                    "type": "string", 
+                                    "errorMsg": "Max length of text input is 8192", 
+                                    "minLength": 0
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "REQUIRES RESTART AFTER SAVING", 
+                            "label": "Public Key", 
+                            "field": "public_key", 
+                            "required": true
+                        }, 
+                        {
+                            "defaultValue": "", 
+                            "validators": [
+                                {
+                                    "maxLength": 8192, 
+                                    "type": "string", 
+                                    "errorMsg": "Max length of password is 8192", 
+                                    "minLength": 0
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "", 
+                            "label": "Client Secret (Development)", 
+                            "field": "client_secret_development_", 
+                            "required": true, 
+                            "encrypted": true
+                        }, 
+                        {
+                            "defaultValue": "", 
+                            "validators": [
+                                {
+                                    "maxLength": 8192, 
+                                    "type": "string", 
+                                    "errorMsg": "Max length of password is 8192", 
+                                    "minLength": 0
+                                }
+                            ], 
+                            "type": "text", 
+                            "help": "", 
+                            "label": "Client Secret (Sandbox)", 
+                            "field": "client_secret_sandbox_", 
+                            "required": true, 
+                            "encrypted": true
+                        }, 
+                        {
+                            "defaultValue": false, 
+                            "type": "checkbox", 
+                            "help": "Checking this will enable development mode to use real banking data instead of the sandbox data. REQUIRES RESTART AFTER SAVING", 
+                            "label": "Enable Development Mode?", 
+                            "field": "enable_development_mode_", 
+                            "required": false
+                        }
+                    ], 
+                    "name": "additional_parameters"
+                }
+            ], 
+            "description": "Set up your add-on"
+        }
+    }
+}

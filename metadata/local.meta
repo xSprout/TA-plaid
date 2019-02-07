@@ -1,0 +1,88 @@
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23configs%2Fconf-ta_plaid_settings%3Aadditional_parameters%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548984925.731615000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23configs%2Fconf-ta_plaid_settings%3Aadditional_parameters%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548984925.737026000
+
+[ta_plaid_settings/additional_parameters]
+version = 7.2.3
+modtime = 1548984925.741678000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3AChase%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 7.1.2
+modtime = 1548372275.789113000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3AChase%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 7.1.2
+modtime = 1548372275.805586000
+
+[inputs/plaid_modular_input%3A%2F%2FChase]
+owner = admin
+version = 7.1.2
+modtime = 1548372276.558072000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3ABank_of_America%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985195.916012000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3ABank_of_America%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985195.921571000
+
+[inputs/plaid_modular_input%3A%2F%2FBank_of_America]
+owner = admin
+version = 7.2.3
+modtime = 1548985196.234411000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3AAmerican_Express%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985222.381828000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3AAmerican_Express%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985222.387450000
+
+[inputs/plaid_modular_input%3A%2F%2FAmerican_Express]
+owner = admin
+version = 7.2.3
+modtime = 1548985222.701882000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3ADiscover%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985258.274006000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3ADiscover%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985258.279641000
+
+[inputs/plaid_modular_input%3A%2F%2FDiscover]
+owner = admin
+version = 7.2.3
+modtime = 1548985258.593050000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3ANeighborhood_Credit_Union%60%60splunk_cred_sep%60%601%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985300.054363000
+
+[passwords/credential%3A__REST_CREDENTIAL__%23TA-plaid%23data%2Finputs%2Fplaid_modular_input%3ANeighborhood_Credit_Union%60%60splunk_cred_sep%60%602%3A]
+owner = admin
+version = 7.2.3
+modtime = 1548985300.060211000
+
+[inputs/plaid_modular_input%3A%2F%2FNeighborhood_Credit_Union]
+owner = admin
+version = 7.2.3
+modtime = 1548985300.373935000

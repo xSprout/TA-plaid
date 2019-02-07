@@ -1,0 +1,160 @@
+<%!
+# retrieve settings
+isLite = (cherrypy.config['product_type'] == 'lite' or cherrypy.config['product_type'] == 'lite_free')
+
+if cherrypy.config['product_type'] == 'hunk':
+    faviconFile = 'favicon_hunk.ico'
+elif isLite:
+    faviconFile = 'favicon_lite.ico'
+else:
+    faviconFile = 'favicon.ico'
+
+faviconFilePath = '/static/img/' + faviconFile
+
+config_qs = dict(autoload=1)
+if hasattr(cherrypy.request, 'embed') and cherrypy.request.embed:
+    config_qs['embed'] = 1
+%>\
+
+<%
+app_name = app
+
+splk_root = "/static"
+app_root = "/".join([splk_root,"app",app_name])
+
+app_js = app_root + '/js'
+
+app_js_build = app_root + '/js/build'
+app_css_build = app_root + '/css'
+
+pageJSName = page+'_page'
+
+# optimized js and css
+common_css = "%s/common.css" % app_css_build
+page_css ="%s/%s.css" % (app_css_build, page)
+bootstrap_enterprise_css = "%s/bootstrap-enterprise.css" % app_css_build
+
+page_js = "%s/%s.js" % (app_js_build ,pageJSName)
+
+
+mode = "sandbox"
+%>\
+
+<!doctype html>
+<!--[if lt IE 7]> <html lang="${i18n.current_lang()[0]|h}" class="no-js ie  lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html lang="${i18n.current_lang()[0]|h}" class="no-js ie7 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html lang="${i18n.current_lang()[0]|h}" class="no-js ie8 lt-ie9"> <![endif]-->
+<!--[if IE 9]>    <html lang="${i18n.current_lang()[0]|h}" class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="${i18n.current_lang()[0]|h}" class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>${_('Loading...')}</title>
+        <meta name="description" content="listen to your data" />
+        <meta name="author" content="Splunk Inc." />
+        <meta name="viewport" content="width=1024, initial-scale=1.0" />
+        <link rel="shortcut icon" href="${make_url(faviconFilePath)}" />
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="${make_url('/static/img/bookmark/apple-icon-57x57-precomposed.png')}" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="${make_url('/static/img/bookmark/apple-icon-72x72-precomposed.png')}" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="${make_url('/static/img/bookmark/apple-icon-114x114-precomposed.png')}" />
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${make_url('/static/img/bookmark/apple-icon-144x144-precomposed.png')}" />
+        <meta name="msapplication-TileColor" content="#65A637">
+        <meta name="msapplication-TileImage" content="${make_url('/static/img/bookmark/ms-tileicon-144x144.png')}">
+
+        <link rel="stylesheet" type="text/css" media="all" href="${make_url(bootstrap_enterprise_css)}" />
+        <link rel="stylesheet" type="text/css" media="all" href="${make_url(common_css)}" />
+        <link rel="stylesheet" type="text/css" media="all" href="${make_url(page_css)}" />
+        <script src="${make_url('/static/js/i18n.js')}"></script>
+    </head>
+    <body s:app="${app_name}">
+        <div class="preload">
+            <div id="placeholder-splunk-bar">
+                <a href="/app/launcher/home" class="brand" title="splunk &gt; listen to your data">splunk<strong>
+                    &gt;</strong></a>
+            </div>
+            <div id="placeholder-app-bar">
+            </div>
+        </div>
+
+        <div class="addonContainer"></div>
+        <div class="dialog-placeholder"></div>
+        <script src="${make_url('/config', _qs=config_qs)}"></script>
+        <script src="${make_url('/i18ncatalog?autoload=1')}"></script>
+        <script>
+            __splunkd_partials__ = ${json_decode(splunkd)};
+        </script>
+        <script src="${make_url(app_js_build + '/common.js')}"></script>
+        <script src="${make_url(page_js)}"></script>
+        <script>
+            function waitForElementToDisplay(selector, time, callback) {
+                if(document.querySelector(selector)!=null) {
+                    callback();
+                    return;
+                }
+                else {
+                    setTimeout(function() {
+                        waitForElementToDisplay(selector, time, callback);
+                    }, time);
+                }
+            }
+        </script>
+        <script>
+            // Why reinvent someone else's wheel when you can be lazy.
+            waitForElementToDisplay("#addInputBtn",500,()=>{
+                let detouredButton = $("#addInputBtn").parent().html();
+                detouredButton = detouredButton.replace("addInputBtn","addBankBtn");
+                $("#addInputBtn").parent().append(detouredButton);
+                $("#addInputBtn").css({"display":"none"});
+                $("#addBankBtn").click(e => {
+                    handler.open();
+                });
+            });
+        </script>
+        <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+        <script type="text/javascript">
+        (function($) {
+            $.get('/custom/TA-plaid/getAccessToken/returnPublicInfo', (response, status, hr) => {
+                let public_info = JSON.parse(response);
+                let env = public_info["environment"];
+                let key = public_info["public_key"];
+                
+                handler = Plaid.create({
+                    clientName: 'Splunk> Enterprise',
+                    env: env,
+                    key: key,
+                    product: ['transactions'],
+                    onLoad: function() {},
+                    onSuccess: function(public_token, metadata) {
+                      $("body").append("<div class='modal-backdrop fade in' id='loadingModalBackdrop'></div>");
+                      $("body").append('<div class="modal fade higherWider in" tabindex="-1" role="dialog" id="loadingModal"><div class="modal-dialog modal-lg"><div class="modal-content" height="300px"><center>Loading...</center></div></div></div>');
+                      $.get('/custom/TA-plaid/getAccessToken/listenerPost', {
+                        public_token: public_token,
+                      },
+                      (data, status, xHR) => { 
+                            $("#loadingModalBackdrop").remove();
+                            $("#loadingModal").remove();
+                            $("#addInputBtn").click();
+                            let response = JSON.parse(data);
+                            $("#plaid_modular_input-plaid_access_token").click();
+                            $("#plaid_modular_input-plaid_access_token").val(response["access_token"]);
+                            $("#plaid_modular_input-plaid_access_token").change();
+                            $("#plaid_modular_input-plaid_item_id").click();
+                            $("#plaid_modular_input-plaid_item_id").val(response["item_id"]);
+                            $("#plaid_modular_input-plaid_item_id").change();
+                            $("#plaid_modular_input-name").click();
+                            $("#plaid_modular_input-name").val(metadata["institution"]["name"].replace(/\s/g,"_"));
+                            $("#plaid_modular_input-name").change();
+                            $("#plaid_modular_input-interval").click();
+                            $("#plaid_modular_input-interval").val(300);
+                            $("#plaid_modular_input-interval").change();
+                    });
+                  },
+                  onExit: function(err, metadata) {},
+                  onEvent: function(eventName, metadata) {}
+                });
+            });
+        })(jQuery);
+        </script>
+    </body>
+</html>
